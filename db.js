@@ -61,20 +61,6 @@ CREATE TABLE IF NOT EXISTS scoreboard (
 )
 `);
 
-db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    1,
-    1, 
-    10, 
-    10, 
-    '2019-01-01 05:00:00'
-  ]);
-  db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    3,
-    1, 
-    10, 
-    10, 
-    '2019-01-01 05:00:00'
-  ]);
   
     // create an initial user (username: alice, password: letmein)
   var salt = crypto.randomBytes(16);

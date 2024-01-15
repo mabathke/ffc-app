@@ -31,15 +31,13 @@
 		
 		<div class="fish-form">
 			<div class="prompt">
-			<form action="/login/password" method="post">
+			<form action="/submitfish" method="post">
 				<section>
 					<label for="fish">Fish</label>
-					<select id="fish" name="fish" required>
-						<!-- Example fish options, replace these with actual fish names from your database -->
-						<option value="trout">Trout</option>
-						<option value="salmon">Salmon</option>
-						<option value="bass">Bass</option>
-						<!-- Add other fish options here -->
+					<select name="fish_type" id="fish_type">
+						<% fishTypes.forEach(function(fish) { %>
+							<option value="<%= fish.id %>"><%= fish.type %></option>
+						<% }); %>
 					</select>
 				</section>
 				<section>
@@ -52,6 +50,15 @@
 		</div>
 	</section>
 		<% include footer %>
-	
+		<script type="text/javascript">
+			window.onload = function() {
+				const urlParams = new URLSearchParams(window.location.search);
+				const fishRegistered = urlParams.get('fishRegistered');
+				if (fishRegistered) {
+					alert('Dein Fisch wurde erfolgreich bewertet!');
+					history.replaceState(null, '', window.location.pathname); // Reset the URL
+				}
+			};
+		</script>
 	</body>
 </html>
