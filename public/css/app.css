@@ -113,3 +113,42 @@
     color: red;
     outline-color: red;
 }
+
+/* General Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 50px auto; /* Centering the table */
+    background: #fff; /* White background */
+    border: 1px solid #e6e6e6; /* Light grey border */
+    border-radius: 8px; /* Rounded corners like the form */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Table Header Styling */
+table thead th {
+    background-color: #006400; /* Dark green background to match the submit button */
+    color: white; /* White text for contrast */
+    font-weight: 700;
+    padding: 10px; /* Consistent padding */
+    text-align: left;
+}
+
+/* Table Body Styling */
+table tbody td {
+    padding: 10px; /* Consistent padding */
+    border-top: 1px solid #e6e6e6; /* Light grey border for separation */
+    font-size: 14px; /* Consistent font size */
+}
+
+/* Table Row Styling */
+table tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Slight grey for alternate rows */
+}
+
+/* Hover effect on table rows */
+table tbody tr:hover {
+    background-color: #f0f0f0; /* Slightly darker on hover for interactivity */
+}
+
+/*

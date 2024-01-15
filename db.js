@@ -76,13 +76,6 @@ db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VA
     '2019-01-01 05:00:00'
   ]);
   
-  db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    3,
-    1, 
-    50, 
-    100, 
-    '2019-01-01 05:00:00'
-  ]);
     // create an initial user (username: alice, password: letmein)
   var salt = crypto.randomBytes(16);
   db.run('INSERT OR IGNORE INTO users (username, hashed_password, salt) VALUES (?, ?, ?)', [

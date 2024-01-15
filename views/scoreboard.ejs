@@ -28,8 +28,30 @@
 					</li>
 				</ul>
 			</nav>		
-		</section>
-		<p> Content will be added later!</p>
+		 <!-- Check if there are scores to display -->
+		 <% if (scores && scores.length > 0) { %>
+			<table>
+				<thead>
+					<tr>
+						<th>Platz</th>
+						<th>Teilnehmer</th>
+						<th>Punkte</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% scores.forEach(function(score) { %>
+						<tr>
+							<td><%= score.ranking %></td>
+							<td><%= score.username %></td>
+							<td><%= score.total_points %></td>
+						</tr>
+					<% }); %>
+				</tbody>
+			</table>
+		<% } else { %>
+			<p>No scores available.</p>
+		<% } %>
 		<% include footer %>
+	</section>
 	</body>
 </html>
