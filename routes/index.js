@@ -24,15 +24,42 @@ function fetchTodos(req, res, next) {
 
 var router = express.Router();
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if (!req.user) { return res.render('home'); }
-  next();
+  if (!req.user) {
+    // Query for overall scores
+    const overallScoresQuery = `
+      SELECT u.username, SUM(s.points) AS total_points
+      FROM scoreboard s
+      JOIN users u ON s.owner_id = u.id
+      GROUP BY u.username
+      ORDER BY total_points DESC
+    `;
+
+    // Execute the query for overall scores
+    db.all(overallScoresQuery, [], function(err, overallScores) {
+      if (err) {
+        console.error(err.message);
+        return res.render('error', { error: err });
+      } else {
+        // Add a ranking property to each row in overall scores
+        overallScores.forEach((row, index) => {
+          row.ranking = index + 1;
+        });
+
+        // Render the home view with the scores
+        return res.render('home', { scores: overallScores });
+      }
+    });
+  } else {
+    next();
+  }
 }, fetchTodos, function(req, res, next) {
   res.locals.filter = null;
   res.render('index', { user: req.user });
 });
+
+
 
 
 

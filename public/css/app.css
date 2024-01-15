@@ -116,7 +116,7 @@
 
 /* General Table Styling */
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     margin: 50px auto; /* Centering the table */
     background: #fff; /* White background */
@@ -131,7 +131,6 @@ table thead th {
     color: white; /* White text for contrast */
     font-weight: 700;
     padding: 10px; /* Consistent padding */
-    text-align: left;
 }
 
 /* Table Body Styling */
@@ -151,4 +150,29 @@ table tbody tr:hover {
     background-color: #f0f0f0; /* Slightly darker on hover for interactivity */
 }
 
-/*
+
+/* Adjusting the width of the table header to account for the scrollbar in the table body */
+.scrollable-table thead {
+    width: calc(100% - 17px); /* Subtracting average scrollbar width (~17px) */
+    display: table;
+    table-layout: fixed;
+}
+
+/* Ensuring the table header and body have the same width */
+.scrollable-table thead, .scrollable-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Scrollable Table Body */
+.scrollable-table tbody {
+    display: block;
+    max-height: 200px; /* Adjust as needed */
+    overflow-y: auto;
+}
+
+table td, table th {
+    text-align: center; /* Centers text horizontally */
+    vertical-align: middle; /* Centers text vertically */
+}

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Express • TodoMVC</title>
+		<title>FFC • Rangliste</title>
 		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/index.css">
 		<link rel="stylesheet" href="/css/app.css">
@@ -28,6 +28,7 @@
 					</li>
 				</ul>
 			</nav>		
+		<h2>Rangliste</h2>
 		 <!-- Check if there are scores to display -->
 		 <% if (scores && scores.length > 0) { %>
 			<table>
@@ -51,7 +52,31 @@
 		<% } else { %>
 			<p>No scores available.</p>
 		<% } %>
+
+		<h2>Meine Fänge</h2>
+
+<% if (entries && entries.length > 0) { %>
+    <table class="scrollable-table">
+        <thead>
+            <tr>
+                <th>Fisch</th>
+                <th>Größe (cm)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% entries.forEach(function(entry) { %>
+                <tr>
+                    <td><%= entry.type %></td>
+                    <td><%= entry.length %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } else { %>
+    <p>No individual entries available.</p>
+<% } %>
+</section>
 		<% include footer %>
-	</section>
+
 	</body>
 </html>

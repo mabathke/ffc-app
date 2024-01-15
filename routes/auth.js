@@ -82,7 +82,7 @@ router.get('/scoreboard', function(req, res, next) {
       FROM scoreboard s
       JOIN types_of_fish t ON s.fish_type_id = t.id
       WHERE s.owner_id = ?
-      ORDER BY s.date
+      ORDER BY s.length DESC
   `;
 
   // Execute the first query for overall scores
@@ -113,7 +113,6 @@ router.get('/scoreboard', function(req, res, next) {
       }
   });
 });
-
 
 
 router.get('/', function(req, res) {

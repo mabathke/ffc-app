@@ -180,7 +180,7 @@ h2 {
     font-weight: 300; /* Adjust font weight as needed */
     text-align: center; /* Center-align text */
     color: #006400; /* Text color */
-    padding: 10px 0; /* Adds padding as needed */
+	padding-top: 10px;
 }
 
 h3 {
@@ -189,4 +189,7 @@ h3 {
     text-align: center; /* Center-align text */
     color: #006400; /* Text color */
     padding: 5px 0; /* Adds padding as needed */
+}
+footer{
+	margin-bottom: 10px;
 }
