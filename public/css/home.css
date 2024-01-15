@@ -1,0 +1,127 @@
+body {
+    width: 100%;
+    margin: 0 auto; /* Center horizontally */
+    padding: 0;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.align-left {
+	margin-left: 10px;
+    text-align: left;
+}
+
+.home {
+	position: relative;
+}
+/* Style for li elements */
+.home li {
+    text-align: left; /* Left-align the text within li elements */
+}
+
+/* Basic styling for h1 */
+.home h1 {
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    top: -150px;
+    width: 100%;
+    font-size: 40px;
+    font-weight: 200;
+    text-align: center;
+    color: #006400;
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    padding: 20px 0;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 600px) {
+    .home h1 {
+		font-size: 35px;
+        line-height: 0.9; /* Increase line height to prevent text overlapping */
+    }
+}
+
+
+/* Styling for h2 */
+.home h2 {
+    font-family: 'Montserrat', sans-serif; /* Use the same font as h1 */
+    font-size: 28px; /* Adjust font size as needed */
+    font-weight: 300; /* Adjust font weight as needed */
+    text-align: center; /* Center-align text */
+    color: #006400; /* Text color */
+    padding: 10px 0; /* Adds padding as needed */
+}
+
+/* Styling for h3 */
+.home h3 {
+    font-family: 'Montserrat', sans-serif; /* Use the same font as h1 */
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: 300; /* Adjust font weight as needed */
+    text-align: center; /* Center-align text */
+    color: #006400; /* Text color */
+    padding: 5px 0; /* Adds padding as needed */
+}
+
+
+
+.home section {
+	padding-top: 1px;
+	text-align: center;
+}
+
+.home h2 {
+	padding-bottom: 48px;
+	font-size: 28px;
+	font-weight: 300;
+}
+
+.home .button {
+	padding: 13px 45px;
+	font-size: 16px;
+	font-weight: 500;
+	color: white;
+	border-radius: 5px;
+	background: #006400;
+}
+
+.home a.button {
+	text-decoration: none;
+}
+
+.home .left-aligned-list li {
+    list-style-position: inside; /* Places the bullet point inside the list item */
+    text-align: left; /* Aligns the text to the left */
+    padding-left: 10px; /* Adds some padding to the left for better spacing */
+}
+
+
+  .navbar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+    padding: 10px 0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: flex-end; /* Aligns the button to the right */
+	}
+
+	.navbar-login-button {
+		margin-right: 20px; 
+		padding: 10px 20px;
+		color: #006400; 
+		background-color: white;
+		border: 2px solid #006400; 
+		border-radius: 5px;
+		text-decoration: none; 
+		font-weight: bold;
+		transition: background-color 0.3s, color 0.3s; 
+		}
+		
+		.navbar-login-button:hover {
+		background-color: #006400; 
+		color: white; 
+		}

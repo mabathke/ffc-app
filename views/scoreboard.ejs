@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Express • TodoMVC</title>
+		<link rel="stylesheet" href="/css/base.css">
+		<link rel="stylesheet" href="/css/index.css">
+		<link rel="stylesheet" href="/css/app.css">
+	</head>
+	<body>
+		<section class="todoapp">
+            <%include header %>
+			<nav class="nav">
+				<ul>
+					<li class="user"><%= user.name || user.username || user.email %></li>
+					<%# Write a link to a page /scoreboard %>
+					<li>
+						<a href="/">Fangmeldung</a>
+					</li>
+					<li>
+						<a href="/rules">Regeln</a>
+					</li>
+					<li>
+						<form action="/logout" method="post">
+							<button class="logout" type="submit">Abmelden</button>
+						</form>
+					</li>
+				</ul>
+			</nav>		
+		</section>
+		<p> Content will be added later!</p>
+		<% include footer %>
+	</body>
+</html>
