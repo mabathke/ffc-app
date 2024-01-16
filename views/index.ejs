@@ -34,7 +34,7 @@
 			</nav>
 			<div class="fish-form">
 				<div class="prompt">
-					<h2>Fangmeldung</h2>
+					<h2>Fang Melden</h2>
 					<form action="/submitfish" method="post">
 						<section>
 							<label for="fish">Fisch</label>
@@ -54,10 +54,7 @@
 					</form>
 				</div>
 			</div>
-
-
 			<div class="fish-form">
-
 				<div class="prompt">
 					<h2>Fang entfernen</h2>
 					<p>Wenn du einen Fang fehlerhaft erfasst hast, kannst du ihn über die Fang-ID
@@ -110,6 +107,16 @@
 				const fishRegistered = urlParams.get('fishRegistered');
 				if (fishRegistered) {
 					alert('Dein Fisch wurde erfolgreich bewertet!');
+					history.replaceState(null, '', window.location.pathname); // Reset the URL
+				}
+			};
+		</script>
+		<script type="text/javascript">
+			window.onload = function () {
+				const urlParams = new URLSearchParams(window.location.search);
+				const fishDeleted = urlParams.get('fishDeleted');
+				if (fishDeleted) {
+					alert('Dein Fang wurde gelöscht!');
 					history.replaceState(null, '', window.location.pathname); // Reset the URL
 				}
 			};

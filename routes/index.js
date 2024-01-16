@@ -4,10 +4,10 @@ var db = require('../db');
 function fetchTodos(req, res, next) {
   db.all('SELECT * FROM todos WHERE owner_id = ?', [
     req.user.id
-  ], function(err, rows) {
+  ], function (err, rows) {
     if (err) { return next(err); }
-    
-    var todos = rows.map(function(row) {
+
+    var todos = rows.map(function (row) {
       return {
         id: row.id,
         title: row.title,
@@ -16,7 +16,7 @@ function fetchTodos(req, res, next) {
       }
     });
     res.locals.todos = todos;
-    res.locals.activeCount = todos.filter(function(todo) { return !todo.completed; }).length;
+    res.locals.activeCount = todos.filter(function (todo) { return !todo.completed; }).length;
     res.locals.completedCount = todos.length - res.locals.activeCount;
     next();
   });
@@ -25,19 +25,19 @@ function fetchTodos(req, res, next) {
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   if (!req.user) {
     // Query for overall scores
     const overallScoresQuery = `
-      SELECT u.username, SUM(s.points) AS total_points
+      SELECT u.name, SUM(s.points) AS total_points
       FROM scoreboard s
       JOIN users u ON s.owner_id = u.id
-      GROUP BY u.username
+      GROUP BY u.name
       ORDER BY total_points DESC
     `;
 
     // Execute the query for overall scores
-    db.all(overallScoresQuery, [], function(err, overallScores) {
+    db.all(overallScoresQuery, [], function (err, overallScores) {
       if (err) {
         console.error(err.message);
         return res.render('error', { error: err });
@@ -57,8 +57,8 @@ router.get('/', function(req, res, next) {
       SELECT * FROM types_of_fish
       ORDER BY type
     `;
-  
-    db.all(fishTypesQuery, [], function(err, fishTypes) {
+
+    db.all(fishTypesQuery, [], function (err, fishTypes) {
       if (err) {
         console.error(err.message);
         return res.render('error', { error: err });
@@ -71,8 +71,8 @@ router.get('/', function(req, res, next) {
           WHERE s.owner_id = ?
           ORDER BY s.length DESC
         `;
-  
-        db.all(individualEntriesQuery, [req.user.id], function(err, individualEntries) {
+
+        db.all(individualEntriesQuery, [req.user.id], function (err, individualEntries) {
           if (err) {
             console.error(err.message);
             return res.render('error', { error: err });
@@ -88,7 +88,7 @@ router.get('/', function(req, res, next) {
 
 
 
-router.post('/submitfish', function(req, res) {
+router.post('/submitfish', function (req, res) {
   if (!req.user) {
     // Redirect to login if the user is not logged in
     return res.redirect('/login');
@@ -100,7 +100,7 @@ router.post('/submitfish', function(req, res) {
 
   // Fetch fish type details from types_of_fish table
   const fishTypeQuery = 'SELECT avg_length, upper_bound, lower_bound FROM types_of_fish WHERE id = ?';
-  db.get(fishTypeQuery, [fishTypeId], function(err, fishType) {
+  db.get(fishTypeQuery, [fishTypeId], function (err, fishType) {
     if (err) {
       console.error(err.message);
       return res.render('error', { error: err });
@@ -120,20 +120,46 @@ router.post('/submitfish', function(req, res) {
 
     // Prepare the date for the entry
     const date = new Date().toISOString();
-    
+
     // Insert the data into the scoreboard table
     const insertQuery = `
       INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) 
       VALUES (?, ?, ?, ?, ?)
     `;
-    db.run(insertQuery, [ownerId, fishTypeId, length, points, date], function(err) {
+    db.run(insertQuery, [ownerId, fishTypeId, length, points, date], function (err) {
       if (err) {
         console.error(err.message);
         return res.render('error', { error: err });
       }
-    
+
       // Redirect or render a success message/page
-      res.redirect('/?fishRegistered=true');    });
+      res.redirect('/?fishRegistered=true');
+    });
+  });
+});
+
+
+router.post('/deletefish', function (req, res) {
+  if (!req.user) {
+    // Redirect to login if the user is not logged in
+    return res.redirect('/login');
+  }
+
+  const catchId = parseInt(req.body.catch_id); // Assuming catch_id is an integer
+  const ownerId = req.user.id; // User's ID for additional verification (optional)
+
+  // Delete query to remove the catch from the scoreboard
+  const deleteQuery = 'DELETE FROM scoreboard WHERE id = ? AND owner_id = ?';
+
+  db.run(deleteQuery, [catchId, ownerId], function (err) {
+    if (err) {
+      console.error(err.message);
+      return res.render('error', { error: err });
+    }
+
+    // Redirect or render a page after successful deletion
+    // For example, redirect back to the main page or a confirmation page
+    res.redirect('/?fishDeleted=true');
   });
 });
 module.exports = router;

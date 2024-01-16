@@ -69,10 +69,10 @@ router.get('/rules', function(req, res, next) {
 router.get('/scoreboard', function(req, res, next) {
   // Query for overall scores
   const overallScoresQuery = `
-      SELECT u.username, SUM(s.points) AS total_points
+      SELECT u.name, SUM(s.points) AS total_points
       FROM scoreboard s
       JOIN users u ON s.owner_id = u.id
-      GROUP BY u.username
+      GROUP BY u.name
       ORDER BY total_points DESC
   `;
 
