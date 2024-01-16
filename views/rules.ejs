@@ -1,60 +1,74 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Fehntjer Angel-Challenge</title>
-		<link rel="stylesheet" href="/css/base.css">
-		<link rel="stylesheet" href="/css/index.css">		
-		<link rel="stylesheet" href="/css/app.css">
-	</head>
-	<body>
-		<section class="todoapp">
-			<%include header %>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Fehntjer Angel-Challenge</title>
+	<link rel="stylesheet" href="/css/base.css">
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/app.css">
+</head>
+
+<body>
+	<section class="todoapp">
+		<%include header %>
 			<nav class="nav">
 				<ul>
-					<li class="user"><%= user.name || user.username || user.email %></li>
+					<li class="user">
+						<%= user.name || user.username || user.email %>
+					</li>
 					<%# Write a link to a page /scoreboard %>
-					<li>
-						<a href="/">Fangmeldung</a>
-					</li>
-					<li>
-						<a href="/scoreboard">Rangliste</a>
-					</li>
-					<li>
-						<form action="/logout" method="post">
-							<button class="logout" type="submit">Abmelden</button>
-						</form>
-					</li>
+						<li>
+							<a href="/">Fangmeldung</a>
+						</li>
+						<li>
+							<a href="/scoreboard">Rangliste</a>
+						</li>
+						<li>
+							<form action="/logout" method="post">
+								<button class="logout" type="submit">Abmelden</button>
+							</form>
+						</li>
 				</ul>
-			</nav>		
-				<h2>Regeln</h2>
-					<ul>
-					<li>Es gelten nur die Fische, die in der Übersicht auf dieser Seite abgebildet sind.</li>
-					<li>Ist ein Fisch kleiner als die <strong>minimale Größe</strong>, gibt dieser keine Punkte.</li>
-					<li>Ist ein Fisch größer als die <strong>minimale Größe</strong> und kleiner als die <strong>durchschnittliche Größe</strong>, so wird die Hälfte der Größe (in cm) als Punkte gutgeschrieben.</li>
-					<li>Ist der Fisch größer als die <strong>durchschnittliche Größe</strong> und kleiner als die <strong>Größe für Bonus-Multiplikator</strong> ,so wird die Größe (in cm) als Punkte gutgeschrieben.</li>
-					<li>Ist der Fisch größer als die <strong>Größe für den Bonus-Multiplikator</strong>, so wird die Größe (in cm) x 1,5 als Punkte gutgeschrieben.</li>
-					<li>Tritt der Bonus-Multiplikator bei einem Fang in Kraft, muss ein Bild von diesem Fisch gemacht werden, welche die Größe des Fisches zeigt.</li>
-					<li>Ist ein gefangener Fisch selten, so gibt es 5 Bonuspunkte, sofern der Fisch größer als die <strong>minimale Größe</strong> ist.</li>
-				</ul>					
-				<h3>Übersicht Fische</h3>
-				<% if (fishes && fishes.length > 0) { %>
-				  <div class="fish-cards">
+			</nav>
+			<h2>Regeln</h2>
+			<ul>
+				<li>Es gelten nur die Fische, die in der Übersicht auf dieser Seite abgebildet sind.</li>
+				<li>Ist ein Fisch kleiner als die <strong>minimale Größe</strong>, gibt dieser keine Punkte.</li>
+				<li>Ist ein Fisch größer als die <strong>minimale Größe</strong> und kleiner als die
+					<strong>durchschnittliche Größe</strong>, so wird die Hälfte der Größe (in cm) als Punkte
+					gutgeschrieben.</li>
+				<li>Ist der Fisch größer als die <strong>durchschnittliche Größe</strong> und kleiner als die
+					<strong>Größe für Bonus-Multiplikator</strong> ,so wird die Größe (in cm) als Punkte gutgeschrieben.
+				</li>
+				<li>Ist der Fisch größer als die <strong>Größe für den Bonus-Multiplikator</strong>, so wird die Größe
+					(in cm) x 1,5 als Punkte gutgeschrieben.</li>
+				<li>Tritt der Bonus-Multiplikator bei einem Fang in Kraft, muss ein Bild von diesem Fisch gemacht
+					werden, welche die Größe des Fisches zeigt.</li>
+				<li>Ist ein gefangener Fisch selten, so gibt es 5 Bonuspunkte, sofern der Fisch größer als die
+					<strong>minimale Größe</strong> ist.</li>
+			</ul>
+			<h3>Übersicht Fische</h3>
+			<% if (fishes && fishes.length> 0) { %>
+				<div class="fish-cards">
 					<% fishes.forEach(function(fish) { %>
-					  <div class="fish-card">
-						<h4><span class="fish-type"><%= fish.type %></span></h4>
-						<p>Durchschnittliche Größe: <%= fish.avg_length %> cm</p>
-						<p>Größe für Bonus-Multiplikator: <%= fish.upper_bound %> cm</p>
-						<p>Minimale Größe: <%= fish.lower_bound %> cm</p>	
-					  </div>
-					<% }); %>
-				  </div>
+						<div class="fish-card">
+							<h4><span class="fish-type">
+									<%= fish.type %>
+								</span></h4>
+							<p>Durchschnittliche Größe: <%= fish.avg_length %> cm</p>
+							<p>Größe für Bonus-Multiplikator: <%= fish.upper_bound %> cm</p>
+							<p>Minimale Größe: <%= fish.lower_bound %> cm</p>
+						</div>
+						<% }); %>
+				</div>
 				<% } else { %>
-				  <p>No fish data available.</p>
-				<% } %>
-			</section>
-	
-			<% include footer %>
-	</body>
+					<p>No fish data available.</p>
+					<% } %>
+	</section>
+
+	<% include footer %>
+</body>
+
 </html>

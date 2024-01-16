@@ -57,14 +57,30 @@ router.get('/', function(req, res, next) {
       SELECT * FROM types_of_fish
       ORDER BY type
     `;
-
+  
     db.all(fishTypesQuery, [], function(err, fishTypes) {
       if (err) {
         console.error(err.message);
         return res.render('error', { error: err });
       } else {
-        // Render the index view with user info and fish types
-        res.render('index', { user: req.user, fishTypes: fishTypes });
+        // Query for individual entries for the current user
+        const individualEntriesQuery = `
+          SELECT t.type, s.length, s.id
+          FROM scoreboard s
+          JOIN types_of_fish t ON s.fish_type_id = t.id
+          WHERE s.owner_id = ?
+          ORDER BY s.length DESC
+        `;
+  
+        db.all(individualEntriesQuery, [req.user.id], function(err, individualEntries) {
+          if (err) {
+            console.error(err.message);
+            return res.render('error', { error: err });
+          } else {
+            // Render the index view with user info, fish types, and individual entries
+            res.render('index', { user: req.user, fishTypes: fishTypes, entries: individualEntries });
+          }
+        });
       }
     });
   }
