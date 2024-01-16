@@ -59,6 +59,7 @@
     <table class="scrollable-table">
         <thead>
             <tr>
+				<th>Fang-ID</th>
                 <th>Fisch</th>
                 <th>Größe (cm)</th>
             </tr>
@@ -66,6 +67,7 @@
         <tbody>
             <% entries.forEach(function(entry) { %>
                 <tr>
+					<td><%= entry.id %></td>
                     <td><%= entry.type %></td>
                     <td><%= entry.length %></td>
                 </tr>
