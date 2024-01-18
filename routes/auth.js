@@ -51,10 +51,6 @@ router.get('/signup', function(req, res, next) {
   res.render('signup');
 });
 
-router.get('/scoreboard', function(req, res) {
-  res.render('scoreboard', {user: req.user});
-});
-
 router.get('/rules', function(req, res, next) {
   // Fetch data from types_of_fish table
   db.all('SELECT * FROM types_of_fish', [], function(err, rows) {
@@ -70,29 +66,90 @@ router.get('/rules', function(req, res, next) {
 });
 
 
+router.get('/scoreboard', function(req, res, next) {
+  // Query for overall scores
+  const overallScoresQuery = `
+      SELECT u.name, SUM(s.points) AS total_points
+      FROM scoreboard s
+      JOIN users u ON s.owner_id = u.id
+      GROUP BY u.name
+      ORDER BY total_points DESC
+  `;
+
+  // Query for individual entries for the current user
+  const individualEntriesQuery = `
+      SELECT t.type, s.length, s.date
+      FROM scoreboard s
+      JOIN types_of_fish t ON s.fish_type_id = t.id
+      WHERE s.owner_id = ?
+      ORDER BY s.length DESC
+  `;
+
+  // Execute the first query for overall scores
+  db.all(overallScoresQuery, [], function(err, overallScores) {
+      if (err) {
+          console.error(err.message);
+          return res.render('error', { error: err });
+      } else {
+          // Add a ranking property to each row in overall scores
+          overallScores.forEach((row, index) => {
+              row.ranking = index + 1;
+          });
+
+          // Execute the second query for individual entries of the current user
+          db.all(individualEntriesQuery, [req.user.id], function(err, individualEntries) {
+              if (err) {
+                  console.error(err.message);
+                  return res.render('error', { error: err });
+              } else {
+                  // Render the scoreboard view with both overall scores and individual entries
+                  res.render('scoreboard', {
+                      user: req.user, 
+                      scores: overallScores, 
+                      entries: individualEntries
+                  });
+              }
+          });
+      }
+  });
+});
+
+
 router.get('/', function(req, res) {
   res.render('home', {fishData: req.fishData});
 });
 
 router.post('/signup', function(req, res, next) {
-  var salt = crypto.randomBytes(16);
-  crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
+  // Check if email and registration key match the entry in the email_verified table
+  db.get('SELECT email, register_key FROM email_verified WHERE email = ? AND register_key = ?', [req.body.email, req.body.regkey], function(err, row) {
     if (err) { return next(err); }
-    db.run('INSERT INTO users (username, hashed_password, salt, email, name) VALUES (?, ?, ?, ?, ?)', [
-      req.body.username,
-      hashedPassword,
-      salt,
-      req.body.email,
-      req.body.name
-    ], function(err) {
+    
+    // If email or regkey does not match, deny the registration
+    if (!row) {
+      // Redirect to the signup page with a query parameter indicating verification failed
+      return res.redirect('/signup?notVerified=true');
+    }
+
+    // Email and regkey are verified, proceed with registration
+    var salt = crypto.randomBytes(16);
+    crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
       if (err) { return next(err); }
-      var user = {
-        id: this.lastID,
-        username: req.body.username
-      };
-      req.login(user, function(err) {
+      db.run('INSERT INTO users (username, hashed_password, salt, email, name) VALUES (?, ?, ?, ?, ?)', [
+        req.body.username,
+        hashedPassword,
+        salt,
+        req.body.email,
+        req.body.name
+      ], function(err) {
         if (err) { return next(err); }
-        res.redirect('/');
+        var user = {
+          id: this.lastID,
+          username: req.body.username
+        };
+        req.login(user, function(err) {
+          if (err) { return next(err); }
+          res.redirect('/');
+        });
       });
     });
   });

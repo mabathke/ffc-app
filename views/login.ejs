@@ -1,30 +1,33 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Anmelden</title>
-		<link rel="stylesheet" href="/css/base.css">
-		<link rel="stylesheet" href="/css/index.css">
-		<link rel="stylesheet" href="/css/login.css">
-	</head>
-	<body>
-		<section class="prompt">
-			<h3>Anmelden</h3>
-			<hr>
-			<form action="/login/password" method="post">
-				<section>
-					<label for="username">Username</label>
-					<input id="username" name="username" type="text" autocomplete="username" required autofocus>
-				</section>
-				<section>
-					<label for="current-password">Password</label>
-					<input id="current-password" name="password" type="password" autocomplete="current-password" required>
-				</section>
-				<button type="submit">Login</button>
-			</form>
-			<p class="help">Du hast noch keinen Account? <a href="/signup">Registrieren</a></p>
-		</section>
-		<% include footer %>
-	</body>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FFC • Anmelden</title>
+	<link rel="stylesheet" href="/css/base.css">
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+	<section class="prompt">
+		<h3>Anmelden</h3>
+		<hr>
+		<form action="/login/password" method="post">
+			<section>
+				<label for="username">Username</label>
+				<input id="username" name="username" type="text" autocomplete="username" required autofocus>
+			</section>
+			<section>
+				<label for="current-password">Password</label>
+				<input id="current-password" name="password" type="password" autocomplete="current-password" required>
+			</section>
+			<button type="submit">Login</button>
+		</form>
+		<p class="help">Du hast noch keinen Account? <a href="/signup">Registrieren</a></p>
+	</section>
+	<% include footer %>
+</body>
+
 </html>

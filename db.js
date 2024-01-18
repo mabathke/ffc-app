@@ -8,7 +8,7 @@ mkdirp.sync('var/db');
 
 var db = new sqlite3.Database('var/db/todos.db');
 
-db.serialize(function() {
+db.serialize(function () {
   // create the database schema for the todos app
   db.run(`
   CREATE TABLE IF NOT EXISTS users (
@@ -21,7 +21,7 @@ db.serialize(function() {
   )
 `);
 
-db.run(`
+  db.run(`
   CREATE TABLE IF NOT EXISTS federated_credentials (
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -31,7 +31,7 @@ db.run(`
   )
 `);
 
-db.run(`
+  db.run(`
   CREATE TABLE IF NOT EXISTS todos (
     id INTEGER PRIMARY KEY,
     owner_id INTEGER NOT NULL,
@@ -50,7 +50,7 @@ db.run(`
     is_rare BOOLEAN NOT NULL
   )
 `);
-db.run(`
+  db.run(`
 CREATE TABLE IF NOT EXISTS scoreboard (
   id INTEGER PRIMARY KEY,
   owner_id INTEGER NOT NULL,
@@ -61,35 +61,26 @@ CREATE TABLE IF NOT EXISTS scoreboard (
 )
 `);
 
-db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    1,
-    1, 
-    10, 
-    10, 
-    '2019-01-01 05:00:00'
-  ]);
-  db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    3,
-    1, 
-    10, 
-    10, 
-    '2019-01-01 05:00:00'
-  ]);
-  
-  db.run('INSERT INTO scoreboard (owner_id, fish_type_id, length, points, date) VALUES (?, ?, ?, ?, ?)', [
-    3,
-    1, 
-    50, 
-    100, 
-    '2019-01-01 05:00:00'
-  ]);
-    // create an initial user (username: alice, password: letmein)
+  db.run(`
+CREATE TABLE IF NOT EXISTS email_verified (
+  id INTEGER PRIMARY KEY,
+  email TEXT UNIQUE,
+  register_key INTEGER UNIQUE
+)
+`);
+
+
+  // create an initial user (username: alice, password: letmein)
   var salt = crypto.randomBytes(16);
   db.run('INSERT OR IGNORE INTO users (username, hashed_password, salt) VALUES (?, ?, ?)', [
     'alice',
     crypto.pbkdf2Sync('letmein', salt, 310000, 32, 'sha256'),
     salt
   ]);
+
+  // create an INSERT INTO for email_verified
+  db.run('INSERT OR IGNORE INTO email_verified (email, register_key) VALUES (?, ?)', [
+    'marvin.bathke@gmx.de', '432134']);
 });
 
 // initialize the values of types_of_fish

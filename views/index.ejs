@@ -1,58 +1,126 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Fangmeldung</title>
-		<link rel="stylesheet" href="/css/base.css">
-		<link rel="stylesheet" href="/css/index.css">
-		<link rel="stylesheet" href="/css/app.css">
-	</head>
-	<body>
-		
-		<section class="prompt">
-			<%include header %>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Fangmeldung</title>
+	<link rel="stylesheet" href="/css/base.css">
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/app.css">
+</head>
+
+<body>
+	<section class="todoapp">
+		<%include header %>
 			<nav class="nav">
 				<ul>
-					<li class="user"><%= user.name || user.username || user.email %></li>
+					<li class="user">
+						<%= user.name || user.username || user.email %>
+					</li>
 					<%# Write a link to a page /scoreboard %>
-					<li>
-						<a href="/scoreboard">Rangliste</a>
-					</li>
-					<li>
-						<a href="/rules">Regeln</a>
-					</li>
-					<li>
-						<form action="/logout" method="post">
-							<button class="logout" type="submit">Abmelden</button>
-						</form>
-					</li>
+						<li>
+							<a href="/scoreboard">Rangliste</a>
+						</li>
+						<li>
+							<a href="/rules">Regeln</a>
+						</li>
+						<li>
+							<form action="/logout" method="post">
+								<button class="logout" type="submit">Abmelden</button>
+							</form>
+						</li>
 				</ul>
-			</nav>	
-		
-		<div class="fish-form">
-			<div class="prompt">
-			<form action="/login/password" method="post">
-				<section>
-					<label for="fish">Fish</label>
-					<select id="fish" name="fish" required>
-						<!-- Example fish options, replace these with actual fish names from your database -->
-						<option value="trout">Trout</option>
-						<option value="salmon">Salmon</option>
-						<option value="bass">Bass</option>
-						<!-- Add other fish options here -->
-					</select>
-				</section>
-				<section>
-					<label for="length">Length</label>
-					<input id="length" name="length" type="number" min="1" required>
-				</section>
-				<button type="submit">Submit</button>
-			</form>
+			</nav>
+			<div class="fish-form">
+				<div class="prompt">
+					<h2>Fang Melden</h2>
+					<form action="/submitfish" method="post">
+						<section>
+							<label for="fish">Fisch</label>
+							<select name="fish_type" id="fish_type">
+								<% fishTypes.forEach(function(fish) { %>
+									<option value="<%= fish.id %>">
+										<%= fish.type %>
+									</option>
+									<% }); %>
+							</select>
+						</section>
+						<section>
+							<label for="length">Länge (in cm)</label>
+							<input id="length" name="length" type="number" min="1" required>
+						</section>
+						<button type="submit">Fang Melden</button>
+					</form>
+				</div>
 			</div>
-		</div>
-	
-		<% include footer %>
-		</section>
-	</body>
+			<div class="fish-form">
+				<div class="prompt">
+					<h2>Fang entfernen</h2>
+					<p>Wenn du einen Fang fehlerhaft erfasst hast, kannst du ihn über die Fang-ID
+						(in der Fangliste am Ende der Seite) wieder entfernen und korrekt erfassen.</p>
+					<form action="/deletefish" method="post">
+						<section>
+							<label for="catch_id">Fang-ID</label>
+							<input id="catch_id" name="catch_id" type="number" min="1" required>
+						</section>
+						<button type="submit">Fang entfernen</button>
+					</form>
+				</div>
+			</div>
+			<h2>Meine Fänge</h2>
+			<% if (entries && entries.length> 0) { %>
+				<table class="scrollable-table">
+					<thead>
+						<tr>
+							<th>Fang-ID</th>
+							<th>Fisch</th>
+							<th>Größe (cm)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% entries.forEach(function(entry) { %>
+							<tr>
+								<td>
+									<%= entry.id %>
+								</td>
+								<td>
+									<%= entry.type %>
+								</td>
+								<td>
+									<%= entry.length %>
+								</td>
+							</tr>
+							<% }); %>
+					</tbody>
+				</table>
+				<% } else { %>
+					<p>No individual entries available.</p>
+					<% } %>
+	</section>
+
+	</section>
+	<% include footer %>
+		<script type="text/javascript">
+			window.onload = function () {
+				const urlParams = new URLSearchParams(window.location.search);
+				const fishRegistered = urlParams.get('fishRegistered');
+				if (fishRegistered) {
+					alert('Dein Fisch wurde erfolgreich bewertet!');
+					history.replaceState(null, '', window.location.pathname); // Reset the URL
+				}
+			};
+		</script>
+		<script type="text/javascript">
+			window.onload = function () {
+				const urlParams = new URLSearchParams(window.location.search);
+				const fishDeleted = urlParams.get('fishDeleted');
+				if (fishDeleted) {
+					alert('Dein Fang wurde gelöscht!');
+					history.replaceState(null, '', window.location.pathname); // Reset the URL
+				}
+			};
+		</script>
+</body>
+
 </html>
