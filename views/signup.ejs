@@ -36,6 +36,16 @@
 		<p class="help">Du hast bereits einen Account? <a href="/login">Anmelden</a></p>
 	</section>
 	<% include footer %>
+		<script type="text/javascript">
+			window.onload = function () {
+				const urlParams = new URLSearchParams(window.location.search);
+				const notVerified = urlParams.get('notVerified');
+				if (notVerified) {
+					alert('Du bist nicht verifiziert, bitte wende dich an deinen Ansprechpartner.');
+					history.replaceState(null, '', window.location.pathname); // Reset the URL
+				}
+			};
+		</script>
 </body>
 
 </html>
