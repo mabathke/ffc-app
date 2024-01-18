@@ -120,18 +120,17 @@ router.get('/', function(req, res) {
 });
 
 router.post('/signup', function(req, res, next) {
-  // Check if email is verified
-  db.get('SELECT email FROM email_verified WHERE email = ?', [req.body.email], function(err, row) {
+  // Check if email and registration key match the entry in the email_verified table
+  db.get('SELECT email, register_key FROM email_verified WHERE email = ? AND register_key = ?', [req.body.email, req.body.regkey], function(err, row) {
     if (err) { return next(err); }
     
-    // If email is not in email_verified table, deny the registration
+    // If email or regkey does not match, deny the registration
     if (!row) {
-      // Here you can modify how you want to send the response.
-      // This example sends a simple JSON response. Depending on your frontend, you might handle it differently.
+      // Redirect to the signup page with a query parameter indicating verification failed
       return res.redirect('/signup?notVerified=true');
     }
 
-    // Email is verified, proceed with registration
+    // Email and regkey are verified, proceed with registration
     var salt = crypto.randomBytes(16);
     crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
       if (err) { return next(err); }

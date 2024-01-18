@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS scoreboard (
   db.run(`
 CREATE TABLE IF NOT EXISTS email_verified (
   id INTEGER PRIMARY KEY,
-  email TEXT UNIQUE
+  email TEXT UNIQUE,
+  register_key INTEGER UNIQUE
 )
 `);
 
@@ -78,8 +79,8 @@ CREATE TABLE IF NOT EXISTS email_verified (
   ]);
 
   // create an INSERT INTO for email_verified
-  db.run('INSERT OR IGNORE INTO email_verified (email) VALUES (?)', [
-    'marvin.bathke@gmx.de']);
+  db.run('INSERT OR IGNORE INTO email_verified (email, register_key) VALUES (?, ?)', [
+    'marvin.bathke@gmx.de', '432134']);
 });
 
 // initialize the values of types_of_fish
