@@ -69,7 +69,7 @@
 							<table class="scrollable-table">
 								<thead>
 									<tr>
-										<th>Fang-ID</th>
+										<th>Datum</th>
 										<th>Fisch</th>
 										<th>Größe (cm)</th>
 									</tr>
@@ -78,7 +78,10 @@
 									<% entries.forEach(function(entry) { %>
 										<tr>
 											<td>
-												<%= entry.id %>
+												<% var date=new Date(entry.date); var day=("0" +
+													date.getDate()).slice(-2); var month=("0" + (date.getMonth() +
+													1)).slice(-2); var year=date.getFullYear(); %>
+													<%= day %>.<%= month %>.<%= year %>
 											</td>
 											<td>
 												<%= entry.type %>

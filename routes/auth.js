@@ -78,7 +78,7 @@ router.get('/scoreboard', function(req, res, next) {
 
   // Query for individual entries for the current user
   const individualEntriesQuery = `
-      SELECT t.type, s.length, s.id
+      SELECT t.type, s.length, s.date
       FROM scoreboard s
       JOIN types_of_fish t ON s.fish_type_id = t.id
       WHERE s.owner_id = ?
