@@ -77,10 +77,6 @@ CREATE TABLE IF NOT EXISTS email_verified (
     crypto.pbkdf2Sync('letmein', salt, 310000, 32, 'sha256'),
     salt
   ]);
-
-  // create an INSERT INTO for email_verified
-  db.run('INSERT OR IGNORE INTO email_verified (email, register_key) VALUES (?, ?)', [
-    'marvin.bathke@gmx.de', '432134']);
 });
 
 // initialize the values of types_of_fish
@@ -96,7 +92,7 @@ function insertTypeOfFish(id, type, avg_length, upper_bound, lower_bound, is_rar
 }
 
 // Read and parse the CSV file
-fs.createReadStream('C:/Users/Admin/fishing-challenge-app/var/data/types_of_fish.csv')
+fs.createReadStream('/home/mabathke/var/data/types_of_fish.csv')
   .pipe(csv({
     separator: ',',
     mapHeaders: ({ header }) => header.trim()
