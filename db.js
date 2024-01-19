@@ -68,15 +68,6 @@ CREATE TABLE IF NOT EXISTS email_verified (
   register_key INTEGER UNIQUE
 )
 `);
-
-
-  // create an initial user (username: alice, password: letmein)
-  var salt = crypto.randomBytes(16);
-  db.run('INSERT OR IGNORE INTO users (username, hashed_password, salt) VALUES (?, ?, ?)', [
-    'alice',
-    crypto.pbkdf2Sync('letmein', salt, 310000, 32, 'sha256'),
-    salt
-  ]);
 });
 
 // initialize the values of types_of_fish
@@ -92,7 +83,8 @@ function insertTypeOfFish(id, type, avg_length, upper_bound, lower_bound, is_rar
 }
 
 // Read and parse the CSV file
-fs.createReadStream('/home/mabathke/var/data/types_of_fish.csv')
+fs.createReadStream('C:/Users/Admin/ffc-app/var/data/types_of_fish.csv')
+//fs.createReadStream('/home/mabathke/ffc-app/var/data/types_of_fish.csv')
   .pipe(csv({
     separator: ',',
     mapHeaders: ({ header }) => header.trim()
